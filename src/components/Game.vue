@@ -1,5 +1,5 @@
 <template>
-    <div ref="container" id="game"></div>
+    <div id="game"></div>
 </template>
 
 <script>
@@ -19,41 +19,62 @@ export default {
     data () {
         return {
             width: 0,
-            height: 0
+            height: 0,
+            itemSize: 0,
+            itemScale: 1
         }
     },
     mounted () {
-        this.width = this.$refs.container.clientWidth
-        this.height = this.$refs.container.clientHeight
+        this.initContainer()
         this.init()
+
+        window.addEventListener("orientationchange", () => history.go(0) )
     },
     methods: {
+        initContainer () {
+            this.width = window.innerWidth
+            this.height = window.innerHeight > window.innerWidth ? window.innerWidth * 0.6 : window.innerHeight
+            this.itemSize = Math.max(this.width / 20, 20)
+            this.itemScale = this.itemSize / 48
+        },
         createPig (x, y) {
-            return Bodies.circle(x, y, 24, {
+            return Bodies.circle(x, y, this.itemSize * 0.5, {
                 density: 0.02,
                 render: {
-                    sprite: { texture: pigImg }
+                    sprite: {
+                        texture: pigImg,
+                        xScale: this.itemScale,
+                        yScale: this.itemScale
+                    }
                 }
             })
         },
         createFence (x, y) {
-            return Bodies.circle(x, y, 24, {
+            return Bodies.circle(x, y, this.itemSize * 0.5, {
                 isStatic: true,
                 render: {
-                    sprite: { texture: fenceImg }
+                    sprite: {
+                        texture: fenceImg,
+                        xScale: this.itemScale,
+                        yScale: this.itemScale
+                    }
                 }
             })
         },
         createChicken (x, y) {
-            return Bodies.circle(x, y, 24, {
+            return Bodies.circle(x, y, this.itemSize * 0.5, {
                 density: 0.01,
                 render: {
-                    sprite: { texture: chickenImg }
+                    sprite: {
+                        texture: chickenImg,
+                        xScale: this.itemScale,
+                        yScale: this.itemScale
+                    }
                 }
             })
         },
         createSpace (x, y) {
-            return Bodies.circle(x, y, 24, {
+            return Bodies.circle(x, y, this.itemSize * 0.5, {
                 isSensor: true,
                 render: { visible: false }
             })
