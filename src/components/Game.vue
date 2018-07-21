@@ -101,7 +101,6 @@ export default {
                 }
             })
 
-            // add mouse control
             const mouse = Mouse.create(render.canvas)
             const mouseConstraint = MouseConstraint.create(engine, {
                 mouse: mouse,
@@ -112,7 +111,6 @@ export default {
             });
 
             World.add(world, mouseConstraint);
-            // keep the mouse in sync with rendering
             render.mouse = mouse;
             Render.lookAt(render, {
                 min: { x: 0, y: 0 },
